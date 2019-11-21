@@ -7,7 +7,7 @@ app = Flask(__name__)
 CORS(app)
 # app.config["DEBUG"] = True
 
-# model = load('smallerbad.pkl')
+model = load('alg.sav')
 
 
 @app.route('/', methods=['GET'])
@@ -23,10 +23,11 @@ def ask():
     except KeyError:
         return "missing args -- try title= & body="
     # data = {'title': [title], 'selftext': [body]}
-    data = {'selftext': [body]}
-    df = pd.DataFrame(data=data)
-    # result = model.predict(X=df)
-    return jsonify({'subreddit': 'Ob0t'})  # result[0]})
+    # data = {'selftext': [body]}
+    # df = pd.DataFrame(data=data)
+    body = [body]
+    result = model.predict(body)
+    return jsonify({'subreddit': result[0]})
 
 # app.run()
 # or run with gunicorn api:app
